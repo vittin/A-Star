@@ -3,14 +3,42 @@
  */
 
 $(document).on('ready', function () {
-    var grid = Board.createClickableGrid(50, 20);
+    Grid.width = 50;
+    Grid.height = 20;
+    Board.createClickableGrid(Grid.width, Grid.height);
     Board.setField("start", 411);
-    Board.setField("end", 437);
+    Board.setField("finish", 437);
     Board.enableClickEvent();
 });
 
+Grid = {
+    width: 0,
+    height: 0,
+    changed: true,
+    parse: function(){
+        var list = [];
+        $(".field").each(function(index, element){
+            var child = $($(element).children()[0]);
+            list[parseInt($(element).attr("id"))] = child.hasClass("clicked");
+        });
+        return list;
+    },
+    getStart: function(){
+        return Board.getField("start");
+    },
+    getFinish: function () {
+        return Board.getField("finish");
+    }
+};
 
 var Board = {
+
+    refresh: function(){
+        if (!Grid.changed){
+            Grid.changed = true;
+            $(".result-path").removeClass("result-path");
+        }
+    },
 
     createClickableGrid: function(cols, rows){
 
@@ -21,12 +49,12 @@ var Board = {
 
         for (var r = 0; r < rows; r++){
 
-            var tr = $('<tr></tr>');
+            var tr = $(`<tr class="y-${r}"></tr>`);
             grid.append(tr);
 
             for (var c = 0; c < cols; c++){
 
-                var cell = $('<td id=' + i++ + '><div class="clickable"> </div></td>');
+                var cell = $(`<td class="field x-${c}" id="${i++}"><div class="clickable"></div></td>`);
                 tr.append(cell);
             }
         }
@@ -45,22 +73,39 @@ var Board = {
         var elem = $("#" + id);
         $(elem).children().remove();
         $(elem).append('<div class='+type+'></div>');
+    },
+
+    getField: function(type){
+        var id = ($("." + type).parent().attr("id"));
+        var x = id % Grid.width;
+        var y = Math.floor(id / Grid.width);
+        return new Coordinates(x, y);
     }
 };
 
+var Coordinates = function(x, y){
+    this.x = x;
+    this.y = y;
+};
+
 var ClickEvent = {
+
+    toggleClass(element){
+        element.toggleClass("clicked");
+        Board.refresh();
+    },
+
     walls: function(){
         var clicking = false;
-        var clicked = "clicked";
         var element;
         var elementId;
         var clickable = $(".clickable");
         $(clickable).on("mousedown", function () {
             clicking = true;
             element = $(this);
-            elementId = element.attr("id");
+            elementId = element.parent().attr("id");
 
-            element.toggleClass(clicked);
+            ClickEvent.toggleClass(element);
         });
 
         $(document).mouseup(function(){
@@ -71,21 +116,21 @@ var ClickEvent = {
             if(clicking == false) {return};
 
             element = $(this);
-            var id = element.attr("id");
+            var id = element.parent().attr("id");
             if (id == elementId){return};
-
             elementId = id;
-            element.toggleClass(clicked);
+            ClickEvent.toggleClass(element);
         });
     },
     entryPoint: function(){
-        $(".start, .end").on("click", function entryClick() {
+        $(".start, .finish").on("click", function entryClick() {
+            Board.refresh();
             var old = $(this);
             var oldId = old.parent().attr("id");
             old.addClass("editable");
             var type = old.attr("class");
             console.log(old);
-            $("td").on("mousedown", function newEntryPoint(){
+            $("td").on("mouseup", function newEntryPoint(){
                 var id = $(this).attr("id");
                 old.remove();
                 $("#"+oldId).append('<div class="clickable"> </div>');
@@ -94,8 +139,8 @@ var ClickEvent = {
 
 
                 //tier down
-                $("td").unbind("mousedown", newEntryPoint);
-                var entryPoints = $(".start, .end");
+                $("td").unbind("mouseup", newEntryPoint);
+                var entryPoints = $(".start, .finish");
                 entryPoints.unbind("click", entryClick);
                 entryPoints.bind("click", entryClick);
             })

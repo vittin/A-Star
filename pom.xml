@@ -35,6 +35,17 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+
+		<dependency>
+			<groupId>org.cucumbers</groupId>
+			<artifactId>a-star-algorithm</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/libs/org/cucumbers/AStarCore/1.0.0/AStarCore.jar</systemPath>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>

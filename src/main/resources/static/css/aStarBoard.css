@@ -2,6 +2,10 @@
     margin: 0 auto;
 }
 
+#findDiv {
+    margin-top: 10px;
+}
+
 .grid { margin:1em auto; border-collapse:collapse }
 
 .grid td {
@@ -17,14 +21,22 @@
     height: 100%;
 }
 
-.grid td.clicked {
+.clicked {
     background-color:gray;
 }
 
 .start {
-    background-color: greenyellow;
+    background-color: greenyellow !important;
 }
 
-.end {
-    background-color: red;
+.finish {
+    background-color: red !important;
+}
+
+.hero {
+    background-color: yellow;
+}
+
+.result-path {
+    background-color: #2e6da4;
 }
