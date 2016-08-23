@@ -10,7 +10,7 @@ var Api = {
     getPath: function(callback){
         $(".result-path").removeClass("result-path");
         if (Grid.changed){
-            AjaxRequest.saveBoard();
+            AjaxRequest.saveBoardAndFindPath(callback);
             //Grid.changed = false;
         }
         AjaxRequest.findPath(callback);
@@ -20,7 +20,7 @@ var Api = {
 
 var AjaxRequest = {
 
-    saveBoard: function(){
+    saveBoardAndFindPath: function(callback){
         var fields = Grid.parse();
         var width = Grid.width;
         $.ajax({
@@ -30,7 +30,7 @@ var AjaxRequest = {
             data: JSON.stringify({fields: fields, width: width})
         })
             .done((response) => {
-                console.log(response);
+                AjaxRequest.findPath(callback)
             })
             .fail((response) => console.log(response))
     },
@@ -60,6 +60,8 @@ var AjaxRequest = {
 
 var Path = {
 
+    allowed: true,
+
     draw: function(fieldsCoordinates){
         fieldsCoordinates.forEach(field => $(Path.getField(field.x, field.y)).addClass("result-path"));
     },
@@ -71,8 +73,10 @@ var Path = {
         nextStep(0);
 
         var previousDOMField;
+
         function nextStep(index){
             if (index >= length){return}
+            if (Path.allowed === false){Path.allowed = true; return}
             var field = array[index];
 
             setTimeout(function(){

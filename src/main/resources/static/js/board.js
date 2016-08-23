@@ -37,6 +37,8 @@ var Board = {
         if (!Grid.changed){
             Grid.changed = true;
             $(".result-path").removeClass("result-path");
+            Path.allowed = false;
+            $(".hero").removeClass("hero")
         }
     },
 
