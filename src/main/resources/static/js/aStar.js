@@ -3,6 +3,11 @@ $("#findPath").click(function(){
 });
 
 $("#move").click(function() {
+    var hero = $(".hero");
+    console.log(hero);
+    if (hero.length){
+        $(".hero").removeClass("hero");
+    }
     Api.getPath(Path.move)
 });
 
@@ -10,14 +15,21 @@ $("#move").click(function() {
 var Api = {
     getPath: function(callback){
         Board.refresh();
-        AjaxRequest.saveBoardAndFindPath(callback);
+        AjaxRequest.saveBoardAndFindPath(Grid.getStart(), Grid.getFinish(), callback);
     },
+
+    getCustomPath: function(start, finish, callback){
+        start = start || Grid.getStart();
+        finish = finish || Grid.getFinish();
+        Board.refresh();
+        AjaxRequest.saveBoardAndFindPath(start, finish, callback);
+    }
 };
 
 
 var AjaxRequest = {
 
-    saveBoardAndFindPath: function(callback){
+    saveBoardAndFindPath: function(start, finish, callback){
         var fields = Grid.parse();
         var width = Grid.width;
         $.ajax({
@@ -27,16 +39,14 @@ var AjaxRequest = {
             data: JSON.stringify({fields: fields, width: width})
         })
             .done((response) => {
-                AjaxRequest.findPath(callback)
+                AjaxRequest.findPath(start, finish, callback)
             })
             .fail((response) => console.log(response))
     },
 
-    findPath: function(callback){
-        var startCoordinates = Grid.getStart();
+    findPath: function(startCoordinates, finishCoordinates, callback){
         var x1 = startCoordinates.x;
         var y1 = startCoordinates.y;
-        var finishCoordinates = Grid.getFinish();
         var x2 = finishCoordinates.x;
         var y2 = finishCoordinates.y;
 
@@ -61,7 +71,7 @@ var Path = {
         Board.refresh();
     },
 
-    allowed: true,
+    allowed: {move: true, create: true},
 
     draw: function(fieldsCoordinates){
         fieldsCoordinates.forEach(field => $(Path.getField(field.x, field.y)).addClass("result-path"));
@@ -69,19 +79,29 @@ var Path = {
     },
 
     move: function(fieldsCoordinates){
+
+        if(!Path.allowed.create){
+            return;
+        }
+
         var array = fieldsCoordinates.reverse();
         var length = array.length;
 
         Grid.changed = false;
+        Path.allowed.move = true;
+
+        Path.allowed.create = false;
 
         nextStep(0);
+
+
 
         var previousDOMField;
 
         function nextStep(index){
 
-            if (Path.allowed === false){Path.allowed = true; return}
-            if (index >= length){return}
+            if (Path.allowed.move === false){Path.allowed.move = true; Path.allowed.create = true; return}
+            if (index >= length){Path.allowed.create = true; return}
 
             var field = array[index];
 

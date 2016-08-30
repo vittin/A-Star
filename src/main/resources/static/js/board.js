@@ -38,9 +38,16 @@ var Board = {
             console.log(2);
             Grid.changed = true;
             $(".result-path").removeClass("result-path");
-            Path.allowed = false;
+            Path.allowed.move = false;
+            Path.allowed.create = false;
             $(".hero").removeClass("hero")
         }
+    },
+
+    restoreField(id){
+        var field = $("#"+id);
+        field.children().remove();
+        field.append('<div class="clickable"></div>');
     },
 
     createClickableGrid: function(cols, rows){
@@ -135,11 +142,9 @@ var ClickEvent = {
             console.log(old);
             $("td").on("mouseup", function newEntryPoint(){
                 var id = $(this).attr("id");
-                old.remove();
-                $("#"+oldId).append('<div class="clickable"> </div>');
+                Board.restoreField(oldId);
 
                 Board.setField(type, id);
-
 
                 //tier down
                 $("td").unbind("mouseup", newEntryPoint);
