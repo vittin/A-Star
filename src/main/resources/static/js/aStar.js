@@ -6,14 +6,11 @@ $("#move").click(function() {
     Api.getPath(Path.move)
 });
 
+
 var Api = {
     getPath: function(callback){
-        $(".result-path").removeClass("result-path");
-        if (Grid.changed){
-            AjaxRequest.saveBoardAndFindPath(callback);
-            //Grid.changed = false;
-        }
-        AjaxRequest.findPath(callback);
+        Board.refresh();
+        AjaxRequest.saveBoardAndFindPath(callback);
     },
 };
 
@@ -60,23 +57,32 @@ var AjaxRequest = {
 
 var Path = {
 
+    clear: function(){
+        Board.refresh();
+    },
+
     allowed: true,
 
     draw: function(fieldsCoordinates){
         fieldsCoordinates.forEach(field => $(Path.getField(field.x, field.y)).addClass("result-path"));
+        Grid.changed = false;
     },
 
     move: function(fieldsCoordinates){
         var array = fieldsCoordinates.reverse();
         var length = array.length;
 
+        Grid.changed = false;
+
         nextStep(0);
 
         var previousDOMField;
 
         function nextStep(index){
-            if (index >= length){return}
+
             if (Path.allowed === false){Path.allowed = true; return}
+            if (index >= length){return}
+
             var field = array[index];
 
             setTimeout(function(){

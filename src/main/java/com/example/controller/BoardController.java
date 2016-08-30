@@ -32,7 +32,6 @@ public class BoardController {
     public HttpEntity setBoard(@RequestBody Board board) {
 
         try {
-            //fields.forEach((k, v) -> fieldsList.add(Boolean.valueOf(v)));
             api.setBoard(board.getFields(), board.getWidth());
         } catch (IllegalArgumentException illegalArgument) {
             return ResponseEntity.unprocessableEntity().body(illegalArgument.getMessage());

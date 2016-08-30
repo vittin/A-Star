@@ -11,7 +11,7 @@ $(document).on('ready', function () {
     Board.enableClickEvent();
 });
 
-Grid = {
+var Grid = {
     width: 0,
     height: 0,
     changed: true,
@@ -35,6 +35,7 @@ var Board = {
 
     refresh: function(){
         if (!Grid.changed){
+            console.log(2);
             Grid.changed = true;
             $(".result-path").removeClass("result-path");
             Path.allowed = false;
