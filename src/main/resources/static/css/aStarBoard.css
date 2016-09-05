@@ -38,5 +38,17 @@
 }
 
 .result-path {
-    background-color: #2e6da4;
+    background-color: #0035a4;
+}
+
+.seen {
+    background-color: #a8dad9;
+}
+
+.touched {
+    background-color: #6a92a9;
+}
+
+.currentField {
+    background-color: yellow; !important;
 }

@@ -38,9 +38,13 @@ var Board = {
             console.log(2);
             Grid.changed = true;
             $(".result-path").removeClass("result-path");
+            $(".hero").removeClass("hero");
+            $(".currentField").removeClass("currentField");
+            $(".seen").removeClass("seen");
+            $(".touched").removeClass("touched");
             Path.allowed.move = false;
             Path.allowed.create = false;
-            $(".hero").removeClass("hero")
+
         }
     },
 
