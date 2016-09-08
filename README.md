@@ -37,8 +37,7 @@ Show step by step how algorithm works and which fields are checked.
 
 ![tracking1](https://cloud.githubusercontent.com/assets/9084222/18342689/58d75bc0-75b0-11e6-9011-a75134ab18c9.jpg)
 ![tracking2](https://cloud.githubusercontent.com/assets/9084222/18342692/58de15be-75b0-11e6-8737-4d9e0c158085.jpg)
-![tracking3](https://cloud.githubusercontent.com/assets/9084222/18342691/58dd6344-75b0-11e6-83ea-97b552b0f82d.jpg)
-![tracking4](https://cloud.githubusercontent.com/assets/9084222/18342690/58d8a520-75b0-11e6-8fe2-8f91baae56b2.jpg)
+![tracking3](https://cloud.githubusercontent.com/assets/9084222/18342690/58d8a520-75b0-11e6-8fe2-8f91baae56b2.jpg)
 
 ### 4) Auto
 
