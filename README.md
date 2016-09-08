@@ -29,9 +29,7 @@ Just show the shortest way
 
 Show step by step shortest path
 
-![move0](https://cloud.githubusercontent.com/assets/9084222/18342520/8946d96c-75af-11e6-8492-7b25f834f7fc.jpg)
-![move1](https://cloud.githubusercontent.com/assets/9084222/18342522/8952648a-75af-11e6-95da-6ff592358d61.png)
-![move2](https://cloud.githubusercontent.com/assets/9084222/18342521/894aa5c4-75af-11e6-89b9-2f13bc5975c7.jpg)
+![move](http://g.recordit.co/QEsUOL5aTz.gif)
 
 ### 3)Enable tracking -> next step -> next step -> ...
 
