@@ -8,16 +8,15 @@ A* algorithm is widely used in pathfinding and graph traversal. Noted for its pe
 
 Project is segmented, each module using only public api to communicate with other.
 
-The **CoreLibrary**, which is precompiled and included as maven dependency, using pure Java 8.
+The **CoreLibrary**, is precompiled and included as maven dependency. It use pure Java 8.
 
-The **RestApi**, which using CoreLibrary, was written in Java 8 and Spring MVC.
+The **RestApi**, using CoreLibrary. It was written in Java 8 and Spring MVC.
 
 The **UI** using Bootstrap, JS (ECMA 6) and JQuery. 
 
-All modules have been written by me.
 
 
-## Application have 4 different way to show shortest path:
+## Application have 4 different way to display shortest path:
 
 ### 1) Find Path 
 
